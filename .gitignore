@@ -1,0 +1,26 @@
+# Visual Studio files
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build files
+bin/
+obj/
+out/
+*.exe
+*.dll
+*.pdb
+
+# Packages
+*.nupkg
+*.snupkg
+packages/
+
+# Log files
+*.log
+
+# Environment and configuration files
+.env
+appsettings*.json
