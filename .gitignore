@@ -1,26 +1,67 @@
-# Visual Studio files
-.vs/
+# Compiled binary files
+bin/
+obj/
+
+# User-specific files
+*.rsuser
 *.suo
 *.user
 *.userosscache
 *.sln.docstates
 
-# Build files
-bin/
-obj/
+# Auto-generated files
+.vs/
+*.aps
+*.ncb
+*.opendb
+*.VC.db
+
+# Temporary files
+*.tmp
+*.log
+*.tlog
+*.vspscc
+*.vssscc
+*.orig
+*.bak
+
+# Build directories
 out/
-*.exe
-*.dll
-*.pdb
+publish/
+
+# Rider IDE files
+.idea/
+
+# Visual Studio Code files
+.vscode/
 
 # Packages
 *.nupkg
 *.snupkg
-packages/
+*.symbols.nupkg
+*.nuget/packages/
+.nuget/
 
-# Log files
-*.log
+# ASP.NET secrets and certificates
+**/secrets/
+**/certificates/
 
-# Environment and configuration files
+# Local environment settings
 .env
-appsettings*.json
+appsettings.Development.json
+
+# Logs
+*.log
+*.dmp
+
+# Coverage reports
+coverage/
+*.coverage
+*.coveragexml
+*.testhost.*
+
+# Dependencies
+packages/
+node_modules/
+
+#
