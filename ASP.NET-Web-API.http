@@ -1,6 +1,18 @@
-@ASP.NET_Web_API_HostAddress = http://localhost:5240
 
-GET {{ASP.NET_Web_API_HostAddress}}/weatherforecast/
-Accept: application/json
+GET http://localhost:5240/
 
+# Get all category
 ###
+GET http://localhost:5240/api/categories
+
+# Single category
+###
+GET http://localhost:5240/api/categories/7bd55267-3bf5-401c-a737-09bfa94f4fc9
+
+# Create category
+###
+POST http://localhost:5240/api/categories
+
+# Delete category
+### 
+DELETE http://localhost:5240/api/categories/7bd55267-3bf5-401c-a737-09bfa94f4fc9
