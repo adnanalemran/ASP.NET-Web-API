@@ -1,4 +1,4 @@
-using System.ComponentModel;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +10,7 @@ List<Category> categories = new List<Category>();
 
 app.MapGet("/", () =>
 {
-    Console.WriteLine("Hit it test ");
+    Console.WriteLine("Hit  Root Path");
     return Results.Json(new
     {
         message = "Api working fine ",
