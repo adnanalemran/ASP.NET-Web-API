@@ -50,18 +50,20 @@ app.MapGet("/api/categories/{id}", (Guid id) =>
 // Create => Post: /api/categories
 app.MapPost("/api/categories", ([FromBody] Category categoryData) =>
 {
-    Console.WriteLine($"Creating category: {categoryData}");
-    categoryData.CategoryId = Guid.NewGuid();
-    categoryData.CreatedAt = DateTime.Now;
-
-    categories.Add(categoryData);
-
-    Console.WriteLine($"Category created: {categoryData}");
-
+    Console.WriteLine($"Payload  Data: {categoryData}");
+    
+    var newCategory = new Category
+    {
+        CategoryId = Guid.NewGuid(),
+        Name = categoryData.Name,
+        Description = categoryData.Description,
+        CreatedAt = DateTime.Now
+    };
+    categories.Add(newCategory);
     return Results.Json(new
     {
         status = 201,
-        data = categoryData
+        data = newCategory
     });
 });
 
