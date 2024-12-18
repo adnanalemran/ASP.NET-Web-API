@@ -36,8 +36,7 @@ Content-Type: application/json
 
 # Delete category
 ### 
-DELETE http://localhost:5240/api/categories/d75fc 
-
+DELETE http://localhost:5240/api/categories/a30999e6-7b20-498a-8b70-483d611c3c29
 
 ###
 GET  http://localhost:5240/api/categories

@@ -137,7 +137,7 @@ app.Run();
 public record Category
 {
     public Guid CategoryId { get; set; } = Guid.NewGuid();
-    public string? Name { get; set; }
-    public string? Description { get; set; }
+    public string? Name { get; set; } 
+    public string? Description { get; set; } = string.Empty;
     public DateTime CreatedAt { get; set; } = DateTime.Now;
 }
