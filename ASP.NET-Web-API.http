@@ -20,7 +20,7 @@ POST http://localhost:5240/api/categories
 Content-Type: application/json
 
 {
-  "name": "pan",
+  "name": "book",
   "description": "Description 1"
 }
 
@@ -39,6 +39,8 @@ Content-Type: application/json
 DELETE http://localhost:5240/api/categories/c9363043-0d6e-45f7-92b0-8d497d51b957
 
 
+###
+GET  http://localhost:5240/api/categories
 ###
 GET  http://localhost:5240/api/categories?searchValue=book
 

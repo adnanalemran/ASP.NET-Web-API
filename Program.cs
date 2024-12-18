@@ -27,14 +27,20 @@ app.MapGet("/", () =>
 app.MapGet("/api/categories", ([FromQuery] string? searchValue = "") =>
 {
     Console.WriteLine($"Search Value: {searchValue}");
-    var result = categories.AsEnumerable();
+
+    // Return all categories if searchValue is null or empty
+    if (string.IsNullOrEmpty(searchValue))
+    {
+        return Results.Ok(new
+        {
+            status = 200,
+            data = categories
+        });
+    }
 
     // Search by name, case-insensitive
-    if (!string.IsNullOrEmpty(searchValue))
-    {
-        result = result.Where(c => !string.IsNullOrEmpty(c.Name) 
-                                   && c.Name.Contains(searchValue, StringComparison.OrdinalIgnoreCase));
-    }
+    var result = categories.Where(c => !string.IsNullOrEmpty(c.Name) &&
+                                        c.Name.Contains(searchValue, StringComparison.OrdinalIgnoreCase));
 
     return Results.Ok(new
     {
@@ -42,6 +48,7 @@ app.MapGet("/api/categories", ([FromQuery] string? searchValue = "") =>
         data = result.ToList()
     });
 });
+
 
 // Get a specific category by ID
 app.MapGet("/api/categories/{id}", (Guid id) =>
