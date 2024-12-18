@@ -51,7 +51,7 @@ app.MapGet("/api/categories/{id}", (Guid id) =>
 app.MapPost("/api/categories", ([FromBody] Category categoryData) =>
 {
     Console.WriteLine($"Payload  Data: {categoryData}");
-    
+
     var newCategory = new Category
     {
         CategoryId = Guid.NewGuid(),
@@ -88,10 +88,9 @@ app.MapPut("/api/categories/{id}", (Guid id, [FromBody] Category category) =>
         return Results.NotFound();
     }
 
-    // Update fields of the existing category
     existingCategory.Name = category.Name;
     existingCategory.Description = category.Description;
-    existingCategory.CreatedAt = DateTime.Now; // Optional: Update CreatedAt if needed
+    existingCategory.CreatedAt = DateTime.Now; 
 
     return Results.Json(new
     {
