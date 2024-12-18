@@ -22,13 +22,21 @@ app.MapGet("/", () =>
     });
 });
 
-// Read => Get: /api/categories
-app.MapGet("/api/categories", () =>
+app.MapGet("/api/categories", ([FromQuery] string? searchValue = "") =>
 {
-    return Results.Json(new
+    Console.WriteLine($"Search Value: {searchValue}");
+    var result = categories.AsEnumerable();
+
+    // Search by name, case-insensitive, if searchValue is provided
+    if (!string.IsNullOrEmpty(searchValue))
+    {
+        result = result.Where(c => !string.IsNullOrEmpty(c.Name) && c.Name.Contains(searchValue, StringComparison.OrdinalIgnoreCase));
+    }
+
+    return Results.Ok(new
     {
         status = 200,
-        data = categories
+        data = result.ToList()
     });
 });
 
@@ -38,9 +46,9 @@ app.MapGet("/api/categories/{id}", (Guid id) =>
     var category = categories.FirstOrDefault(x => x.CategoryId == id);
     if (category == null)
     {
-        return Results.NotFound();
+        return Results.NotFound(new { message = "Category not found" });
     }
-    return Results.Json(new
+    return Results.Ok(new
     {
         status = 200,
         data = category
@@ -50,8 +58,9 @@ app.MapGet("/api/categories/{id}", (Guid id) =>
 // Create => Post: /api/categories
 app.MapPost("/api/categories", ([FromBody] Category categoryData) =>
 {
-    Console.WriteLine($"Payload  Data: {categoryData}");
+    Console.WriteLine($"Payload Data: {categoryData}");
 
+    // Create a new category with a new GUID and current time for CreatedAt
     var newCategory = new Category
     {
         CategoryId = Guid.NewGuid(),
@@ -60,7 +69,8 @@ app.MapPost("/api/categories", ([FromBody] Category categoryData) =>
         CreatedAt = DateTime.Now
     };
     categories.Add(newCategory);
-    return Results.Json(new
+
+    return Results.Created($"/api/categories/{newCategory.CategoryId}", new
     {
         status = 201,
         data = newCategory
@@ -73,7 +83,7 @@ app.MapDelete("/api/categories/{id}", (Guid id) =>
     var category = categories.FirstOrDefault(x => x.CategoryId == id);
     if (category == null)
     {
-        return Results.NotFound();
+        return Results.NotFound(new { message = "Category not found" });
     }
     categories.Remove(category);
     return Results.NoContent();
@@ -85,14 +95,14 @@ app.MapPut("/api/categories/{id}", (Guid id, [FromBody] Category category) =>
     var existingCategory = categories.FirstOrDefault(x => x.CategoryId == id);
     if (existingCategory == null)
     {
-        return Results.NotFound();
+        return Results.NotFound(new { message = "Category not found" });
     }
 
+    // Only update the Name and Description; don't change CreatedAt.
     existingCategory.Name = category.Name;
     existingCategory.Description = category.Description;
-    existingCategory.CreatedAt = DateTime.Now; 
 
-    return Results.Json(new
+    return Results.Ok(new
     {
         status = 200,
         data = existingCategory
@@ -100,7 +110,6 @@ app.MapPut("/api/categories/{id}", (Guid id, [FromBody] Category category) =>
 });
 
 app.Run();
-
 
 public record Category
 {

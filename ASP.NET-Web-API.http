@@ -1,6 +1,9 @@
 
 GET http://localhost:5240/
 
+
+# Start Category API
+
 # Get all category
 ###
 GET http://localhost:5240/api/categories
@@ -9,17 +12,21 @@ GET http://localhost:5240/api/categories
 ###
 GET http://localhost:5240/api/categories/7bd55267-3bf5-401c-a737-09bfa94f4fc9
 
+
+
 # Create category
 ###
 POST http://localhost:5240/api/categories
 Content-Type: application/json
 
 {
-  "name": "Category 4",
+  "name": "book",
   "description": "Description 1"
 }
+
+
 ###
-PUT  http://localhost:5240/api/categories/bebec5ed-e1ed-472c-9a53-a7f24a07f22b
+PUT  http://localhost:5240/api/categories/f6d42e98-5c32-4189-a156-f06353e52b69
 Content-Type: application/json
 
 {
@@ -27,8 +34,12 @@ Content-Type: application/json
   "description": "Description 1"
 }
 
-
-
 # Delete category
 ### 
 DELETE http://localhost:5240/api/categories/c9363043-0d6e-45f7-92b0-8d497d51b957
+
+
+###
+GET http://localhost:5240/api/categories?searchValue="book"
+
+# End Category API
