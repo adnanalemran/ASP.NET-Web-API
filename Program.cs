@@ -115,7 +115,7 @@ app.MapPut("/api/categories/{id}", (Guid id, [FromBody] Category categoryData) =
 });
 
 // Delete a category by ID
-app.MapDelete("/api/categories/{id}", (Guid id) =>
+app.MapDelete("/api/categories/{id:guid}", (Guid id) =>
 {
     var category = categories.FirstOrDefault(x => x.CategoryId == id);
     if (category == null)
@@ -125,7 +125,10 @@ app.MapDelete("/api/categories/{id}", (Guid id) =>
 
     categories.Remove(category);
 
-    return Results.NoContent();
+    return Results.Json(new
+    {
+        status = 200,
+        message = "Category deleted successfully"});
 });
 
 app.Run();
