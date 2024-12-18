@@ -12,6 +12,12 @@ GET http://localhost:5240/api/categories/7bd55267-3bf5-401c-a737-09bfa94f4fc9
 # Create category
 ###
 POST http://localhost:5240/api/categories
+Content-Type: application/json
+
+{
+  "name": "Category 4",
+  "description": "Description 1"
+}
 
 # Delete category
 ### 

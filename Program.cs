@@ -1,4 +1,7 @@
-
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,29 +13,26 @@ List<Category> categories = new List<Category>();
 
 app.MapGet("/", () =>
 {
-    Console.WriteLine("Hit  Root Path");
+    Console.WriteLine("Hit Root Path");
     return Results.Json(new
     {
-        message = "Api working fine ",
+        message = "API working fine",
         date = DateTime.Now,
         name = "Test"
     });
-
 });
 
-
-//Read => Get: /api/categories 
+// Read => Get: /api/categories
 app.MapGet("/api/categories", () =>
 {
     return Results.Json(new
     {
         status = 200,
-        data = categories,
-
+        data = categories
     });
-
 });
-//Read => Get: /api/categories/{id}
+
+// Read => Get: /api/categories/{id}
 app.MapGet("/api/categories/{id}", (Guid id) =>
 {
     var category = categories.FirstOrDefault(x => x.CategoryId == id);
@@ -43,30 +43,29 @@ app.MapGet("/api/categories/{id}", (Guid id) =>
     return Results.Json(new
     {
         status = 200,
-        data = category,
-
+        data = category
     });
 });
 
-
-//Create => Post: /api/categories
-app.MapPost("/api/categories", () =>
+// Create => Post: /api/categories
+app.MapPost("/api/categories", ([FromBody] Category categoryData) =>
 {
-    var newCategory = new Category
+    Console.WriteLine($"Creating category: {categoryData}");
+    categoryData.CategoryId = Guid.NewGuid();
+    categoryData.CreatedAt = DateTime.Now;
+
+    categories.Add(categoryData);
+
+    Console.WriteLine($"Category created: {categoryData}");
+
+    return Results.Json(new
     {
-
-        CategoryId = Guid.NewGuid(),
-        Name = "ELeoctonic 2",
-        Description = "Test Dis 2 ",
-        CreatedAt = DateTime.UtcNow,
-
-    };
-    categories.Add(newCategory);
-    return Results.Created($"/api/categories/{newCategory.CategoryId}", newCategory);
-
+        status = 201,
+        data = categoryData
+    });
 });
 
-//Delete => Delete: /api/categories/{id}
+// Delete => Delete: /api/categories/{id}
 app.MapDelete("/api/categories/{id}", (Guid id) =>
 {
     var category = categories.FirstOrDefault(x => x.CategoryId == id);
@@ -78,16 +77,19 @@ app.MapDelete("/api/categories/{id}", (Guid id) =>
     return Results.NoContent();
 });
 
-//Update => Put: /api/categories/{id}
-app.MapPut("/api/categories/{id}", (Guid id, Category category) =>
+// Update => Put: /api/categories/{id}
+app.MapPut("/api/categories/{id}", (Guid id, [FromBody] Category category) =>
 {
     var existingCategory = categories.FirstOrDefault(x => x.CategoryId == id);
     if (existingCategory == null)
     {
         return Results.NotFound();
     }
+
+    // Update fields of the existing category
     existingCategory.Name = category.Name;
     existingCategory.Description = category.Description;
+    existingCategory.CreatedAt = DateTime.Now; // Optional: Update CreatedAt if needed
 
     return Results.Json(new
     {
@@ -98,18 +100,11 @@ app.MapPut("/api/categories/{id}", (Guid id, Category category) =>
 
 app.Run();
 
+
 public record Category
 {
     public Guid CategoryId { get; set; }
     public string? Name { get; set; }
     public string? Description { get; set; }
     public DateTime CreatedAt { get; set; }
-
 };
-
-//CRUD
-//Create => Post: /api/categories
-//Read => Get: /api/categories
-//Read => Get: /api/categories/{id}
-//Update => Put: /api/categories/{id}
-//Delete => Delete: /api/categories/{id}
