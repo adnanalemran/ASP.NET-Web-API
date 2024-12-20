@@ -99,14 +99,16 @@ app.MapPut("/api/categories/{id}", (Guid id, [FromBody] Category categoryData) =
         return Results.NotFound(new { status = 404, message = "Category not found" });
     }
 
-    if (string.IsNullOrWhiteSpace(categoryData.Name))
+    if(!string.IsNullOrWhiteSpace(categoryData.Name))
     {
-        return Results.BadRequest(new { status = 400, message = "Category name is required" });
+        existingCategory.Name = categoryData.Name;
     }
 
-    existingCategory.Name = categoryData.Name;
-    existingCategory.Description = categoryData.Description;
-
+    if(!string.IsNullOrWhiteSpace(categoryData.Description))
+    {
+        existingCategory.Description = categoryData.Description;
+    }
+     
     return Results.Ok(new
     {
         status = 200,

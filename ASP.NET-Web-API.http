@@ -26,7 +26,7 @@ Content-Type: application/json
 
 
 ###
-PUT  http://localhost:5240/api/categories/f6d42e98-5c32-4189-a156-f06353e52b69
+PUT  http://localhost:5240/api/categories/e22fb9ca-b665-46d2-aaf3-2d98281868be
 Content-Type: application/json
 
 {
