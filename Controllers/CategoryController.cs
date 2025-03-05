@@ -1,42 +1,52 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+namespace ASP.NET_Web_API.Controllers;
+
 using Microsoft.AspNetCore.Mvc;
 using ASP.NET_Web_API.Models;
+using ASP.NET_Web_API.Services;
 
-namespace ASP.NET_Web_API.Controllers
+public static class CategoryController
 {
-    [ApiController]
-    [Route("api/categories")]
-    public class CategoryController : ControllerBase
+    public static void RegisterCategoryEndpoints(WebApplication app)
     {
+        var service = new CategoryService();
 
-        private static List<Category> categories = new List<Category>();
-
-        //get all categories
-        [HttpGet]
-        public IActionResult GetCategories(string searchValue)
+        app.MapGet("/api/categories", ([FromQuery] string? searchValue) =>
         {
-            Console.WriteLine($"Search Value: {searchValue}");
+            var result = service.GetAllCategories(searchValue);
+            return Results.Ok(new { status = 200, data = result });
+        });
 
-            if (string.IsNullOrEmpty(searchValue))
-            {
-                return Ok(new
-                {
-                    status = 200,
-                    data = categories
-                });
-            }
-            var result = categories.Where(c => !string.IsNullOrEmpty(c.Name) &&
-                                                c.Name.Contains(searchValue, StringComparison.OrdinalIgnoreCase));
+        app.MapGet("/api/categories/{id:guid}", (Guid id) =>
+        {
+            var category = service.GetCategoryById(id);
+            return category is not null
+                ? Results.Ok(new { status = 200, data = category })
+                : Results.NotFound(new { status = 404, message = "Category not found" });
+        });
 
-            return Ok(new
-            {
-                status = 200,
-                data = result.ToList()
-            });
-        }
+        app.MapPost("/api/categories", ([FromBody] Category categoryData) =>
+        {
+            if (string.IsNullOrWhiteSpace(categoryData.Name))
+                return Results.BadRequest(new { status = 400, message = "Category name is required" });
 
+            var newCategory = service.AddCategory(categoryData);
+            return Results.Created($"/api/categories/{newCategory.CategoryId}", new { status = 201, data = newCategory });
+        });
+
+        app.MapPut("/api/categories/{id:guid}", (Guid id, [FromBody] Category categoryData) =>
+        {
+            if (service.UpdateCategory(id, categoryData))
+                return Results.Ok(new { status = 200, message = "Category updated successfully" });
+
+            return Results.NotFound(new { status = 404, message = "Category not found" });
+        });
+
+        app.MapDelete("/api/categories/{id:guid}", (Guid id) =>
+        {
+            if (service.DeleteCategory(id))
+                return Results.Ok(new { status = 200, message = "Category deleted successfully" });
+
+            return Results.NotFound(new { status = 404, message = "Category not found" });
+        });
     }
 }

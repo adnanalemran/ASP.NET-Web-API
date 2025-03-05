@@ -10,7 +10,7 @@ GET http://localhost:5240/api/categories
 
 # Single category
 ###
-GET http://localhost:5240/api/categories/7bd55267-3bf5-401c-a737-09bfa94f4fc9
+GET http://localhost:5240/api/categories/5ec33a71-8469-42f0-a954-455948dd3fce
 
 
 
@@ -26,7 +26,7 @@ Content-Type: application/json
 
 
 ###
-PUT  http://localhost:5240/api/categories/e22fb9ca-b665-46d2-aaf3-2d98281868be
+PUT  http://localhost:5240/api/categories/5ec33a71-8469-42f0-a954-455948dd3fce
 Content-Type: application/json
 
 {
