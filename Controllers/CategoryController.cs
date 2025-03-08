@@ -9,6 +9,7 @@ public static class CategoryController
     public static void RegisterCategoryEndpoints(WebApplication app)
     {
         var service = new CategoryService();
+        
 
         app.MapGet("/api/categories", ([FromQuery] string? searchValue) =>
         {
@@ -26,10 +27,8 @@ public static class CategoryController
 
         app.MapPost("/api/categories", ([FromBody] Category categoryData) =>
         {
-            if (string.IsNullOrWhiteSpace(categoryData.Name))
-                return Results.BadRequest(new { status = 400, message = "Category name is required" });
-
             var newCategory = service.AddCategory(categoryData);
+
             return Results.Created($"/api/categories/{newCategory.CategoryId}", new { status = 201, data = newCategory });
         });
 
