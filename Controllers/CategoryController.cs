@@ -1,15 +1,17 @@
+using ASP.NET_Web_API.Models;
+using ASP.NET_Web_API.Services;
+
 namespace ASP.NET_Web_API.Controllers;
 
 using Microsoft.AspNetCore.Mvc;
-using ASP.NET_Web_API.Models;
-using ASP.NET_Web_API.Services;
+
 
 public static class CategoryController
 {
     public static void RegisterCategoryEndpoints(WebApplication app)
     {
         var service = new CategoryService();
-        
+
 
         app.MapGet("/api/categories", ([FromQuery] string? searchValue) =>
         {
@@ -25,8 +27,13 @@ public static class CategoryController
                 : Results.NotFound(new { status = 404, message = "Category not found" });
         });
 
+
+
         app.MapPost("/api/categories", ([FromBody] Category categoryData) =>
         {
+            if (categoryData.Name is null)
+                return Results.BadRequest(new { status = 400, message = "Category name  is required" });
+
             var newCategory = service.AddCategory(categoryData);
 
             return Results.Created($"/api/categories/{newCategory.CategoryId}", new { status = 201, data = newCategory });
@@ -34,10 +41,13 @@ public static class CategoryController
 
         app.MapPut("/api/categories/{id:guid}", (Guid id, [FromBody] Category categoryData) =>
         {
-            if (service.UpdateCategory(id, categoryData))
-                return Results.Ok(new { status = 200, message = "Category updated successfully" });
 
-            return Results.NotFound(new { status = 404, message = "Category not found" });
+            var updatedCategory = service.UpdateCategory(id, categoryData);
+            if (updatedCategory is null)
+                return Results.NotFound(new { status = 404, message = "Category not found." });
+            
+            return Results.Ok(new { status = 200, message = "Category updated successfully", data = updatedCategory });
+
         });
 
         app.MapDelete("/api/categories/{id:guid}", (Guid id) =>

@@ -33,10 +33,13 @@ public class CategoryService
         return newCategory;
     }
 
-    public bool UpdateCategory(Guid id, Category categoryData)
+    public Category? UpdateCategory(Guid id, Category categoryData)
     {
         var existingCategory = _categories.FirstOrDefault(x => x.CategoryId == id);
-        if (existingCategory == null) return false;
+        
+        if (existingCategory == null) return null;
+
+
 
         if (!string.IsNullOrWhiteSpace(categoryData.Name))
             existingCategory.Name = categoryData.Name;
@@ -44,7 +47,7 @@ public class CategoryService
         if (!string.IsNullOrWhiteSpace(categoryData.Description))
             existingCategory.Description = categoryData.Description;
 
-        return true;
+        return existingCategory;
     }
 
     public bool DeleteCategory(Guid id)

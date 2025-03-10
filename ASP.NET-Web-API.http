@@ -1,46 +1,36 @@
-
+### Base URL
 GET http://localhost:5240/
-
 
 # Start Category API
 
-# Get all category
-###
+### Get all categories
 GET http://localhost:5240/api/categories
 
-# Single category
-###
-GET http://localhost:5240/api/categories/5ec33a71-8469-42f0-a954-455948dd3fce
+### Get a single category by ID
+GET http://localhost:5240/api/categories/87f01c4b-c15c-426c-877b-0f01c0de5c94
 
-
-
-# Create category
-###
+### Create a new category
 POST http://localhost:5240/api/categories
 Content-Type: application/json
 
 {
-  "name": "book",
-  "description": "Description 1"
+  "name": "Book",
+  "description": "A category for books"
 }
 
-
-###
-PUT  http://localhost:5240/api/categories/5ec33a71-8469-42f0-a954-455948dd3fce
+### Update an existing category
+PUT http://localhost:5240/api/categories/e6444ca6-cf2c-49c2-821a-84568429453a
 Content-Type: application/json
 
 {
-  "name": "Adnan",
-  "description": "Description 1"
+  "name": "Updated Name",
+  "description": "Updated description"
 }
 
-# Delete category
-### 
-DELETE http://localhost:5240/api/categories/a30999e6-7b20-498a-8b70-483d611c3c29
+### Delete a category
+DELETE http://localhost:5240/api/categories/87f01c4b-c15c-426c-877b-0f01c0de5c94
 
-###
-GET  http://localhost:5240/api/categories
-###
-GET  http://localhost:5240/api/categories?searchValue=book
+### Search categories by name
+GET http://localhost:5240/api/categories?searchValue=book
 
 # End Category API
