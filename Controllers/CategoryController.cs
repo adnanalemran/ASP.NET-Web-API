@@ -1,3 +1,4 @@
+using ASP.NET_Web_API.DTOs;
 using ASP.NET_Web_API.Models;
 using ASP.NET_Web_API.Services;
 
@@ -29,12 +30,17 @@ public static class CategoryController
 
 
 
-        app.MapPost("/api/categories", ([FromBody] Category categoryData) =>
+        app.MapPost("/api/categories", ([FromBody] CategoryCreateDTO categoryData) =>
         {
             if (categoryData.Name is null)
                 return Results.BadRequest(new { status = 400, message = "Category name  is required" });
 
-            var newCategory = service.AddCategory(categoryData);
+            var category = new Category
+            {
+                Name = categoryData.Name,
+                Description = categoryData.Description
+            };
+            var newCategory = service.AddCategory(category);
 
             return Results.Created($"/api/categories/{newCategory.CategoryId}", new { status = 201, data = newCategory });
         });

@@ -5,6 +5,8 @@ VisualStudioVersion = 17.5.002.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASP.NET-Web-API", "ASP.NET-Web-API.csproj", "{B17B82C6-DF5B-4673-B0FE-3DDF4A6FA39A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "forLoopWithJM", "..\forLoopWithJM\forLoopWithJM.csproj", "{5F839BE8-D964-4035-8B65-58E0DB219BBD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{B17B82C6-DF5B-4673-B0FE-3DDF4A6FA39A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B17B82C6-DF5B-4673-B0FE-3DDF4A6FA39A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B17B82C6-DF5B-4673-B0FE-3DDF4A6FA39A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F839BE8-D964-4035-8B65-58E0DB219BBD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F839BE8-D964-4035-8B65-58E0DB219BBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F839BE8-D964-4035-8B65-58E0DB219BBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F839BE8-D964-4035-8B65-58E0DB219BBD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
